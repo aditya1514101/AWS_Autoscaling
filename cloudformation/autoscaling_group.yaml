@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  test:
+    Type: String
+    Default: test
+Resources:
+  DisAutoscalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties: 
+      AutoScalingGroupName: "DISProject"
+      AvailabilityZones: 
+        - us-east-1a
+        - us-east-1b
+      Cooldown: "300"
+      # DefaultInstanceWarmup: Integer
+      DesiredCapacity: 0
+      HealthCheckGracePeriod: 500
+      HealthCheckType: EC2
+      # LaunchConfigurationName: String
+      LaunchTemplate: 
+        LaunchTemplateId: !ImportValue MyLaunchTemplate
+        Version: 1
+      # LoadBalancerNames: 
+      #   - String
+      # MaxInstanceLifetime: Integer
+      MaxSize: 0
+      # MetricsCollection: 
+      #   - MetricsCollection
+      MinSize: 0
+      # MixedInstancesPolicy: 
+      #   MixedInstancesPolicy
+      # NewInstancesProtectedFromScaleIn: Boolean
+      # NotificationConfigurations: 
+      #   - NotificationConfiguration
+      # PlacementGroup: String
+      # ServiceLinkedRoleARN: String
+      # Tags: 
+      #   - Key: test
+      #     Value: !ImportValue MyLaunchTemplate
+      # TargetGroupARNs: 
+        # - String
+      # TerminationPolicies: 
+        # - String
+      # VPCZoneIdentifier: 
+      #   - String
