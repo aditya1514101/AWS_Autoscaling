@@ -1,23 +1,34 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Type: AWS::EC2::SecurityGroup
 Parameters:
-  GroupDescriptionParameter:
+  GroupDescription:
     Type: String
     Default: launch-wizard-1 created with SSH inbound rule
+  GroupName:
     Type: String
     Default: launch-wizard-1
   VpcID: 
     Type: String
     Default: vpc-0aeb3dbec450b00c6
-Properties: 
-  GroupDescription: !Ref GroupDescriptionParameter
-  GroupName: !Ref GroupNameParameter
-  SecurityGroupEgress: 
-    - IpProtocol: -1
-      CidrIp: 0.0.0.0/0
-  SecurityGroupIngress: 
-    - IpProtocol: tcp
-      FromPort: 22
-      ToPort: 22
-      CidrIp: 0.0.0.0/0
-  VpcId: !Ref VpcID
+  GroupName:
+    Type: String
+    Default: DisSecurityGroup
+Resources:
+  DISSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: !Ref GroupDescription
+      GroupName: !Ref GroupName
+      SecurityGroupEgress: 
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VpcID
+Outputs:
+  DISSecurityGroup:
+    Value: !Ref DISSecurityGroup
+    Export:
+      Name: DISSecurityGroup
