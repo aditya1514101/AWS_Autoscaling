@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ImageID:
+    Type: String
+    Default: ami-007855ac798b5175e
+    Description: Image ID for the instances to be created using launch template.
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t3.micro
+    Description: Select the instance type you want to be created.
+  KeyPairName:
+    Type: String
+    Default: disKey
+    Description: SSH Key Pair for instance
+  SecurityGroupID:
+    Type: String
+    Default: sg-0832405a625d14202
+    Description: Security group ID for launch template
+Resources:
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: MyLaunchTemplate
+      LaunchTemplateData:
+        ImageId: !Ref ImageID
+        InstanceType: !Ref InstanceTypeParameter
+        KeyName: !Ref KeyPairName
+        SecurityGroupIds:
+          - !Ref SecurityGroupID
+Outputs:
+  MyLaunchTemplate:
+    Value: !Ref MyLaunchTemplate
+    Export:
+      Name: MyLaunchTemplate
