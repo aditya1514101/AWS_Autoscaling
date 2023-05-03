@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
-  test:
+  GroupName:
     Type: String
-    Default: test
+    Default: DisAutoscalingGroup
 Resources:
   DisAutoscalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties: 
-      AutoScalingGroupName: "DISProject"
+      AutoScalingGroupName: !Ref GroupName
       AvailabilityZones: 
         - us-east-1a
         - us-east-1b
@@ -43,3 +43,8 @@ Resources:
         # - String
       # VPCZoneIdentifier: 
       #   - String
+Outputs:
+  DisAutoscalingGroup:
+    Value: !Ref DisAutoscalingGroup
+    Export:
+      Name: DisAutoscalingGroup
