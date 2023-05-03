@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  DisCPUScalinPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties: 
+      AutoScalingGroupName: !ImportValue DisAutoscalingGroup
+      PolicyType: SimpleScaling
+      AdjustmentType: ChangeInCapacity
+      ScalingAdjustment: '-1'
+Outputs:
+  DisCPUScalinPolicy:
+    Value: !Ref DisCPUScalinPolicy
+    Export:
+      Name: DisCPUScalinPolicy
