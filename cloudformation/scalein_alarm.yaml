@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  AlarmDescription:
+    Type: String
+    Default: CPU Scalein alarm to check threshold below scale in limit
+  AlarmThreshold:
+    Type: String
+    Default: 30
+  EvaluationPeriod:
+    Type: String
+    Default: 2
+  Period:
+    Type: String
+    Default: 150
+Resources:
+  CPUAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Ref AlarmDescription
+      AlarmActions:
+      - !ImportValue DisCPUScaleoutPolicy
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: !Ref Period
+      EvaluationPeriods: !Ref EvaluationPeriod
+      Threshold: !Ref AlarmThreshold
+      ComparisonOperator: LessThanThreshold
+      Dimensions:
+       - Name: AutoScalingGroupName
+         Value: !ImportValue DisAutoscalingGroup
