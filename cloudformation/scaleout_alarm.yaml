@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  AlarmDescription:
+    Type: String
+    Default: CPU Scaleout alarm to check threshold crossed above scale out limit
+  AlarmThreshold:
+    Type: String
+    Default: 70
+  EvaluationPeriod:
+    Type: String
+    Default: 2
+  Period:
+    Type: String
+    Default: 150
+Resources:
+  CPUAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Ref AlarmDescription
+      AlarmActions:
+      - !ImportValue DisCPUScaleoutPolicy
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: !Ref Period
+      EvaluationPeriods: !Ref EvaluationPeriod
+      Threshold: !Ref AlarmThreshold
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+       - Name: AutoScalingGroupName
+         Value: !ImportValue DisAutoscalingGroup
